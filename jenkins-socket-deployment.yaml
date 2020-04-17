@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: jenkins-socket-deployment
+  name: jenkins-socket-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins-socket-deployment
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: jenkins-socket-deployment
+    spec:
+      containers:
+      - image: urkolekuona/jenkins-docker
+        name: jenkins
+        resources: {}
+        ports:
+          - containerPort: 8080
+        env:
+          - name: DOCKER_HOST
+            value: tcp://0.0.0.0:2375
+      - name: dind-daemon
+        image: urkolekuona/dind:no-privilege
+        env:
+          - name: DOCKER_TLS_CERTDIR 
+            value: ''
+        securityContext:
+          privileged: true
+status: {}
