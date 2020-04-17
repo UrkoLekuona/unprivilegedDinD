@@ -1,4 +1,4 @@
-FROM docker:dind
+FROM docker:19.03.8-dind
 
 COPY ./authz.rego /etc/docker/policies/authz.rego
 COPY ./daemon.json /etc/docker/daemon.json_plugin
